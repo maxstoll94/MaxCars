@@ -1,2 +1,6 @@
 # MaxCars
-Max cars provides the best way with the maximum satisfaction
+Max cars provides maximum travel satisfaction!
+
+# Timer (max. 3 hours)
+Start Time: 20:23
+End Time: TBD
