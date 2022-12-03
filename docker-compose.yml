@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  bookingservice:
+    image: ${DOCKER_REGISTRY-}bookingservice
+    build:
+      context: .
+      dockerfile: BookingService/Dockerfile
+
+  priceservice:
+    image: ${DOCKER_REGISTRY-}priceservice
+    build:
+      context: .
+      dockerfile: PriceService/Dockerfile
+
