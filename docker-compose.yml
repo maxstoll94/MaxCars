@@ -1,15 +1,37 @@
 version: '3.4'
 
 services:
-  priceservice:
-    image: ${DOCKER_REGISTRY-}priceservice
-    build:
-      context: .
-      dockerfile: PriceService/Dockerfile
+    priceservice:
+        image: ${DOCKER_REGISTRY-}priceservice
+        build:
+            context: .
+            dockerfile: PriceService/Dockerfile
+        depends_on: 
+            - mysql
 
-  bookingservice:
-    image: ${DOCKER_REGISTRY-}bookingservice
-    build:
-      context: .
-      dockerfile: BookingService/Dockerfile
+    bookingservice:
+        image: ${DOCKER_REGISTRY-}bookingservice
+        build:
+            context: .
+            dockerfile: BookingService/Dockerfile
+        depends_on: 
+            - mysql
 
+    mysql:
+        image: mysql:8.0
+        hostname: mysql
+        restart: always
+        environment:
+            MYSQL_ROOT_PASSWORD: root_password
+            MYSQL_DATABASE: maxcar
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+        ports:
+            - '3306:3306'
+        volumes:
+            - db:/var/lib/mysql
+            - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  db:
+    driver: local

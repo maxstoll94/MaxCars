@@ -1,5 +1,7 @@
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using PersistenceLayer;
+using PersistenceLayer.Database;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +14,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // inject repository
-builder.Services.AddScoped<IRepository, FakeRepository>();
+builder.Services.AddScoped<IRepository, Repository>();
+
+// inject context
+var cs = builder.Configuration.GetConnectionString("MySQL");
+builder.Services.AddDbContext<IContext, Context>(options => options.UseMySql(cs, ServerVersion.AutoDetect(cs)));
 
 // inject mediator
 var assembly = Assembly.Load("DomainLayer");

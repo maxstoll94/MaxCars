@@ -39,7 +39,15 @@ namespace DomainLayer.Handlers
                 return Result.Fail(error);
             }
 
-            var bookings = _repository.GetBookings();
+            var car = _repository.GetCarByCode(request.Code);
+
+            if (car == null) 
+            {
+                var error = new DomainError(ErrorCode.CarNotFound, $"A car with code: {request.Code} was not found");
+                return Result.Fail(error);
+            }
+
+            var bookings = _repository.GetBookingsForCar(car.Id);
 
             // Verify that the car is NOT booked during the request time period
             if (!bookings.All(booking => request.End < booking.Start || request.Start > booking.End))
@@ -47,14 +55,6 @@ namespace DomainLayer.Handlers
                 var error = new DomainError(ErrorCode.CarBooked, $"The car with code: {request.Code} is already booked");
                 return Result.Fail(error);
 
-            }
-
-            var car = _repository.GetCarByCode(request.Code);
-
-            if (car == null) 
-            {
-                var error = new DomainError(ErrorCode.CarNotFound, $"A car with code: {request.Code} was not found");
-                return Result.Fail(error);
             }
 
             // Calculate the car rate

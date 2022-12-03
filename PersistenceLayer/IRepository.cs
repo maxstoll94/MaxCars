@@ -7,7 +7,8 @@
     public interface IRepository
     {
         public CarDto? GetCarByCode(string code);
-        public IQueryable<BookingDto> GetBookings();
+        public IEnumerable<BookingDto> GetBookingsForCar(int carId);
         public void AddBooking(BookingDto booking);
+        public void SaveChanges();
     }
 }

@@ -16,14 +16,16 @@
             _bookings.Add(booking);
         }
 
-        public IQueryable<BookingDto> GetBookings()
+        public IEnumerable<BookingDto> GetBookingsForCar(int carId)
         {
-            return _bookings.AsQueryable();
+            return _bookings.Where(b => b.CarId == carId);
         }
 
         public CarDto? GetCarByCode(string code)
         {
             return _cars.FirstOrDefault(c => c.Code == code);
         }
+
+        public void SaveChanges() {}
     }
 }
