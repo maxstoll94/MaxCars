@@ -7,12 +7,12 @@ namespace PriceService.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PriceController : ControllerBase
+    public class PricesController : ControllerBase
     {
-        private readonly ILogger<PriceController> _logger;
+        private readonly ILogger<PricesController> _logger;
         private readonly IMediator _mediator;
 
-        public PriceController(ILogger<PriceController> logger, IMediator mediator)
+        public PricesController(ILogger<PricesController> logger, IMediator mediator)
         {
             _logger = logger;
             _mediator = mediator;
