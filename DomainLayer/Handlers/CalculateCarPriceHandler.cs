@@ -111,7 +111,7 @@ namespace DomainLayer.Handlers
         }
 
         /// <summary>
-        /// Snappcar adds 10% per day on top of the car price
+        /// MaxCar adds 10% per day on top of the car price
         /// </summary>
         public static decimal CalculateMaxCarRate(decimal carRate, int days)
         {
@@ -124,6 +124,9 @@ namespace DomainLayer.Handlers
                 yield return day;
         }
 
+        /// <summary>
+        /// If a rental takes longer than 3 days, the renter gets a discount of 15% over the total price.
+        /// </summary>
         public static decimal CalculateDiscount(decimal total, int days)
         {
             var discount = 0m;
