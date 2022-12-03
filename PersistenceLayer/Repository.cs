@@ -33,6 +33,7 @@ namespace PersistenceLayer
         public CarDto? GetCarByCode(string code)
         {
             return _context.Cars
+                .Where(c => c.Code == code)
                 .Select(c => new CarDto(c.Id, c.Code, c.Price))
                 .FirstOrDefault();
         }
