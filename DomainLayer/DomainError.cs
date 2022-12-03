@@ -10,6 +10,8 @@ namespace DomainLayer
 
     public enum ErrorCode
     {
-        CarNotFound
+        CarNotFound,
+        CarBooked,
+        InvalidDateTime
     }
 }

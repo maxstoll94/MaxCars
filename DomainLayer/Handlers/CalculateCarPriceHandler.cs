@@ -33,6 +33,22 @@ namespace DomainLayer.Handlers
 
         protected override Result<CalculateCarPriceResponse, DomainError> Handle(CalculateCarPriceMessage request)
         {
+            if (request.End <= request.Start)
+            {
+                var error = new DomainError(ErrorCode.InvalidDateTime, $"The provided DateTime range is invalid");
+                return Result.Fail(error);
+            }
+
+            var bookings = _repository.GetBookings();
+
+            // Verify that the car is NOT booked during the request time period
+            if (!bookings.All(booking => request.End < booking.Start || request.Start > booking.End))
+            {
+                var error = new DomainError(ErrorCode.CarBooked, $"The car with code: {request.Code} is already booked");
+                return Result.Fail(error);
+
+            }
+
             var car = _repository.GetCarByCode(request.Code);
 
             if (car == null) 
@@ -60,6 +76,7 @@ namespace DomainLayer.Handlers
 
             return Result.Succeed(response);
         }
+
 
         /// <summary>
         /// On Saturday and Sunday the base price of the car goes up with 5%.
